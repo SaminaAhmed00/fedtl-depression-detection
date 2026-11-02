@@ -1,0 +1,13 @@
+# data and large artifacts (not redistributable)
+data/
+*.npz
+*.npy
+*.pt
+*.pth
+*.ckpt
+*.wav
+*.edf
+*.mat
+__pycache__/
+.ipynb_checkpoints/
+.DS_Store

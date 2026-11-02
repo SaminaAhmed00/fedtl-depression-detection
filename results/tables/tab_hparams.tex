@@ -1,0 +1,21 @@
+\begin{tabular}{p{0.30\textwidth}p{0.64\textwidth}}
+\toprule
+\textbf{Component} & \textbf{Setting} \\
+\midrule
+Projection head $f_s$ & $d_s\!\to\!256\!\to\!256\!\to\!512$; Linear--LayerNorm--GELU--Dropout(0.1) blocks; output L2-normalised \\
+Classifier head & $512\!\to\!256\!\to\!K$, LayerNorm, GELU, Dropout(0.1); local, never shared \\
+Input standardisation & z-score per silo with training-split statistics \\
+Optimiser & AdamW, weight decay $10^{-4}$, gradient clipping 1.0 \\
+Learning rate & selected per partition and method from \{0.0005, 0.0002, 0.0001\} on pooled validation macro-F1 \\
+Rounds / local epochs / batch & 100 / 10 / 32; early stop after 20 rounds without validation gain \\
+Prototype loss & temperature $\tau=0.1$, inverse-frequency class weights \\
+Compactness term & $\lambda_{\mathrm{comp}}=0.2$, supervised-contrastive temperature 0.07 \\
+Classification loss & focal, $\gamma=2.0$, weight 1.0, inverse-frequency class weights \\
+Augmentation & no Gaussian embedding noise ($\sigma=0$); mixup $\alpha=0.2$ (classifier path only) \\
+FedTGP server & margin $m=0.5$ (mean over competing prototypes), Adam lr $10^{-3}$, one step per round \\
+Reliability weights $r_k^{(s)}$ & per-class validation F1 of nearest-prototype prediction \\
+Gate initial value $g_s^{(0)}$ & Audio 0.0075, EEG 0.75, Text 0.35 \\
+Gate target & Audio $\min(0.01\,\bar r_s,0.0075)$; Text $\min(0.6\,\bar r_s,0.5)$; EEG $\bar r_s$; $\bar r_s$ clipped to [0.05, 0.95]; EMA momentum 0.95 \\
+Binary decision threshold & tuned per silo on validation macro-F1 over 41 values in [0.05, 0.95] \\
+\bottomrule
+\end{tabular}
