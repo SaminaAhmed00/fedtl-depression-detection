@@ -1,0 +1,145 @@
+{
+  "BASE_HP": {
+    "SHARED_DIM": 512,
+    "LOCAL_EPOCHS": 10,
+    "N_ROUNDS": 100,
+    "EARLY_STOP_PATIENCE": 20,
+    "LR_HEAD": 0.0002,
+    "N_CLIENTS": 3,
+    "HIDDEN_DIM": 256,
+    "N_HEAD_LAYERS": 2,
+    "HEAD_DROPOUT": 0.1,
+    "USE_INPUT_STANDARDIZATION": true,
+    "BATCH_SIZE": 32,
+    "AUGMENT_NOISE_STD": 0.0,
+    "USE_CLASS_WEIGHTING": true,
+    "PROTO_TEMPERATURE": 0.1,
+    "GRAD_CLIP": 1.0,
+    "USE_SAMPLE_SIZE_WEIGHTING": false,
+    "USE_CLIENT_RELIABILITY_WEIGHTING": true,
+    "USE_COMPACTNESS": true,
+    "COMPACT_LAMBDA": 0.2,
+    "USE_CLASSIFIER_HEAD": true,
+    "PREDICT_WITH": "classifier",
+    "CE_WEIGHT": 1.0,
+    "USE_FOCAL_LOSS": true,
+    "FOCAL_GAMMA": 2.0,
+    "CE_LABEL_SMOOTHING": 0.05,
+    "USE_MIXUP": true,
+    "MIXUP_ALPHA": 0.2,
+    "USE_ETF_INIT": true,
+    "GATE_ADAPT_MOMENTUM": 0.95,
+    "GATE_MIN": 0.05,
+    "GATE_MAX": 0.95,
+    "GATE_INIT": {
+      "audio": 0.0075,
+      "eeg": 0.75,
+      "text": 0.35
+    },
+    "WEIGHT_CLIP_RANGE": [
+      0.3,
+      1.5
+    ],
+    "USE_THRESHOLD_TUNING": true,
+    "THRESHOLD_GRID": 41,
+    "TGP_MARGIN": 0.5,
+    "TGP_LR": 0.001
+  },
+  "GATE_TARGET": {
+    "audio": [
+      0.01,
+      0.0075
+    ],
+    "text": [
+      0.6,
+      0.5
+    ],
+    "eeg": [
+      1.0,
+      null
+    ]
+  },
+  "LR_GRID": [
+    0.0005,
+    0.0002,
+    0.0001
+  ],
+  "TUNE_LR": true,
+  "N_SEEDS": 3,
+  "EEG_SOURCE": "oof",
+  "AUDIO_LAYER_MODE": "per_partition",
+  "ENDPOINTS": {
+    "bin_ea": {
+      "task": "binary",
+      "silos": [
+        "eeg",
+        "audio"
+      ],
+      "cut": {
+        "eeg": 1,
+        "audio": 1
+      }
+    },
+    "bin_t1": {
+      "task": "binary",
+      "silos": [
+        "eeg",
+        "audio",
+        "text"
+      ],
+      "cut": {
+        "eeg": 1,
+        "audio": 1,
+        "text": 1
+      }
+    },
+    "bin_t2": {
+      "task": "binary",
+      "silos": [
+        "eeg",
+        "audio",
+        "text"
+      ],
+      "cut": {
+        "eeg": 2,
+        "audio": 2,
+        "text": 2
+      }
+    },
+    "sev3": {
+      "task": "severity3",
+      "silos": [
+        "eeg",
+        "audio",
+        "text"
+      ],
+      "cut": null
+    },
+    "bin_mixed": {
+      "task": "binary",
+      "silos": [
+        "eeg",
+        "audio",
+        "text"
+      ],
+      "cut": {
+        "eeg": 1,
+        "audio": 1,
+        "text": 2
+      }
+    }
+  },
+  "partitions": [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9"
+  ],
+  "torch": "2.11.0+cu130"
+}
